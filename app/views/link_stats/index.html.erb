@@ -1,0 +1,25 @@
+<h1>Listing link_stats</h1>
+
+<table>
+  <tr>
+    <th>Link id</th>
+    <th>Like count</th>
+    <th>Share count</th>
+    <th>Comment count</th>
+    <th></th>
+    
+  </tr>
+
+
+  <tr>
+    <td><%= @link_stat.link.url %></td>
+    <td><%= @link_stat.like_count %></td>
+    <td><%= @link_stat.share_count %></td>
+    <td><%= @link_stat.comment_count %></td>
+    <td><%= link_to 'Update', link_link_stat_path(@link,@link_stat) , :method => :put%></td>
+    
+  </tr>
+
+</table>
+
+<br />
