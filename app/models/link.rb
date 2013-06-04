@@ -2,7 +2,7 @@ class Link < ActiveRecord::Base
 
   require 'rest_client'
 
-  has_one :link_stat
+  has_one :link_stat, :dependent => :destroy
 
   attr_accessible :url
 
@@ -12,10 +12,10 @@ class Link < ActiveRecord::Base
   	"http://api.facebook.com/restserver.php?method=links.getStats&urls=#{url}"
   end
 
-  private
-
   def create_stats
-  	stats = Hash.from_xml(RestClient.get(name, {:accept => :xml}))
-  	self.build_link_stat(stats['links_getStats_response']['link_stat'])  	
+  	stats = Hash.from_xml(RestClient.get(name, {:accept => :xml}))['links_getStats_response']
+    [:url, :normalized_url, :total_count, 
+     :click_count, :comments_fbid, :commentsbox_count].each{|key| stats['link_stat'].delete(key.to_s)}
+  	self.build_link_stat(stats['link_stat'])  	
   end
 end

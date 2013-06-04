@@ -12,11 +12,13 @@ class LinkStatsController < ApplicationController
   end
 
   def update
-    @link_stat = LinkStat.find(params[:id])
+    @link = Link.find_by_id(params[:link_id])
+    @link_stat = @link.create_stats
+    # @link_stat = LinkStat.find(params[:id])
 
     respond_to do |format|
       if @link_stat.update_attributes(params[:link_stat])
-        format.html { redirect_to @link_stat, notice: 'Link stat was successfully updated.' }
+        format.html { redirect_to link_link_stats_path(@link.id) , notice: 'Link stat was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
